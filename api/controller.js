@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const filesUpload = require('../utils/uploadFiles');
 const config = require('../config/database');
-const baseURL = "http://localhost:3000";
+const baseURL = "http://13.57.59.4:3000";
 const jwt = require('jsonwebtoken');
 const serverFilesPath = './public/uploads/';
 
