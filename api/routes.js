@@ -12,17 +12,20 @@ module.exports = function (app) {
     app.route('/login')
         .post(controller.login);
 
-    app.route('/add-image')
+    app.route('/delete-all-files')
+        .get(controller.deleteAllFiles);
+
+    app.route('/add-files')
         .post(passport.authenticate('jwt', {
             failureRedirect: '/authfailurejson',
             session: false
-        }), controller.uploadImage);
+        }), controller.uploadFiles);
 
-    // app.route('/add-fbx')
-    //     .post(passport.authenticate('jwt', {
-    //         failureRedirect: '/authfailurejson',
-    //         session: false
-    //     }), controller.uploadFbx);
+    app.route('/delete-user-files')
+        .get(passport.authenticate('jwt', {
+            failureRedirect: '/authfailurejson',
+            session: false
+        }), controller.deleteUserFiles);
 
     // app.route('/get-images')
     //     .get(passport.authenticate('jwt', {

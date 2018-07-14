@@ -8,8 +8,9 @@ var UserSchema = new schema({
     email: String,
     username: String,
     password: String,
-    pictures: [String],
-    fbx:[String]
+    markers: [String],
+    fbx:[String],
+    counter: Number
 
 
 });
