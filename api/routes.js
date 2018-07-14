@@ -27,6 +27,12 @@ module.exports = function (app) {
             session: false
         }), controller.deleteUserFiles);
 
+    app.route('/get-all-markers')
+        .get(controller.getAllMarkers);
+
+    app.route('/get-fbx')
+        .post(controller.getFbxForMarker);
+
     // app.route('/get-images')
     //     .get(passport.authenticate('jwt', {
     //         failureRedirect: '/authfailurejson',

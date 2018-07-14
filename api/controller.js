@@ -143,6 +143,74 @@ exports.uploadFiles = function (req, res) {
     });
 }
 
+exports.getAllMarkers = function(req, res){
+
+    if (req.get('authentication-key') == null || req.get('authentication-key') != config.adminAuthenticationKey) {
+        res.json({
+            success: false,
+            msg: "unauthorized access"
+        });
+        return;
+    }
+
+    Global.find({}, function(err, files){
+        if(err) throw err;
+        var userMarkers = [];
+        if(files.length == 0){
+            res.json({
+                success: false,
+                msg: "No markers found"
+            });
+            return;
+        }
+
+        for(var i = 0; i < files.length; i++){
+            userMarkers[i] = files[i].marker;
+        }
+
+        res.json({
+            success: true,
+            markers: userMarkers
+        });
+    })
+}
+
+exports.getFbxForMarker = function(req, res){
+
+    if (req.get('authentication-key') == null || req.get('authentication-key') != config.adminAuthenticationKey) {
+        res.json({
+            success: false,
+            msg: "unauthorized access"
+        });
+        return;
+    }
+
+    // const marker = "marker_5b4a09a5a849ff0a8c867428-1.jpg";
+    const marker = req.body.marker;
+    var fbxFinder = marker.split("_");
+    fbxFinder = fbxFinder[1].split(".");
+    fbxFinder = fbxFinder[0];
+
+    Global.findOne({ fbx: { $regex: fbxFinder } }, function (err, fbx) {
+
+        if(err) throw err;
+        if(!fbx){
+            res.json({
+                success:false,
+                msg: "No fbx found for the marker"
+            });
+            return;
+        }
+
+        res.json({
+            success: true,
+            fbxLink: fbx.fbx
+        });
+
+    });
+
+}
+
 exports.deleteUserFiles = function (req, res) {
     User.findOne(req.user._id, function (err, user) {
         if (err) throw err;
@@ -171,6 +239,14 @@ exports.deleteUserFiles = function (req, res) {
 }
 
 exports.deleteAllFiles = function (req, res){
+
+    if (req.get('authentication-key') == null || req.get('authentication-key') != config.adminAuthenticationKey) {
+        res.json({
+            success: false,
+            msg: "unauthorized access"
+        });
+        return;
+    }
     Global.remove({}, function (err, files) {
         if (err) throw err;
         res.json({
