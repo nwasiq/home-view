@@ -27,8 +27,8 @@ function checkFileType(files, cb) {
     }
     else if(files.fieldname == 'fbx'){
         const fbxExtension = path.extname(files.originalname);
-        if (fbxExtension !== '.fbx') {
-            cb('Error: only fbx files allowed for fbx!');
+        if (fbxExtension !== '.obj') {
+            cb('Error: only obj files allowed for fbx!');
         }
         else
             return cb(null, true);
